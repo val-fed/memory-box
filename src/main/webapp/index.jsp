@@ -1,5 +1,6 @@
 <html>
 <body>
-<h2>Hello World!</h2>
+<h2>Memory Box</h2>
+<a href="${pageContext.request.contextPath}/word/">Go to words list</a>
 </body>
 </html>
