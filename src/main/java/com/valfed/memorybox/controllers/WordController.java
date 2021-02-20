@@ -46,4 +46,10 @@ public class WordController {
     wordDao.save(word);
     return "redirect:/words";
   }
+
+  @DeleteMapping("/{id}")
+  public String delete(@PathVariable("id") int id) {
+    wordDao.delete(id);
+    return "redirect:/words";
+  }
 }

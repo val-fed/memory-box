@@ -42,4 +42,8 @@ public class WordDao {
             new BeanPropertyRowMapper<>(Word.class))
             .stream().findAny().orElse(null);
   }
+
+  public void delete(int id) {
+    jdbcTemplate.update("DELETE FROM word WHERE id=?", id);
+  }
 }
