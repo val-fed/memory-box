@@ -1,8 +1,17 @@
 package com.valfed.memorybox.models;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class Word {
   private int id;
+
+  @NotEmpty(message = "Origin text can not be empty")
+  @Size(min = 2, max = 300, message = "Origin text should be between 2 and 300 chars")
   private String origin;
+
+  @NotEmpty(message = "Translation text can not be empty")
+  @Size(min = 2, max = 300, message = "Translation text should be between 2 and 300 chars")
   private String translation;
 
   public Word() {
