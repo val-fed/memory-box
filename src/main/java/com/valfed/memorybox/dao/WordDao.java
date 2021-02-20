@@ -34,6 +34,13 @@ public class WordDao {
     simpleJdbcInsert.withTableName("word").usingGeneratedKeyColumns("id").execute(parameterSource);
   }
 
+  public void update(int id, Word updatedWord) {
+    jdbcTemplate.update("UPDATE word SET origin=?, translation=? WHERE id=?",
+            updatedWord.getOrigin(),
+            updatedWord.getTranslation(),
+            id);
+  }
+
   public Word show(int id) {
     return jdbcTemplate.query(
             "SELECT * FROM word WHERE id=?",

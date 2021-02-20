@@ -8,7 +8,8 @@
 <p th:text="${word.getId()}">VALUE</p>
 <p th:text="${word.getOrigin()}">VALUE</p>
 <p th:text="${word.getTranslation()}">VALUE</p>
-
+<br/>
+<a th:href="@{/words/{id}/edit(id=${word.getId()})}">Edit</a>
 <form th:method="DELETE" th:action="@{/words/{id}(id=${word.getId()})}">
     <input type="submit" value="Delete"/>
 </form>

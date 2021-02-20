@@ -47,6 +47,23 @@ public class WordController {
     return "redirect:/words";
   }
 
+  @GetMapping("/{id}/edit")
+  public String edit(Model model, @PathVariable("id") int id) {
+    model.addAttribute("word", wordDao.show(id));
+    return "words/edit";
+  }
+
+  @PatchMapping("/{id}")
+  public String update(@ModelAttribute("word") @Valid Word word,
+                       BindingResult bindingResult,
+                       @PathVariable("id") int id) {
+    if (bindingResult.hasErrors()) {
+      return "words/edit";
+    }
+    wordDao.update(id, word);
+    return "redirect:/words";
+  }
+
   @DeleteMapping("/{id}")
   public String delete(@PathVariable("id") int id) {
     wordDao.delete(id);

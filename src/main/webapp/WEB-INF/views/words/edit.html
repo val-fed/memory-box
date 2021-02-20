@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Word</title>
+</head>
+<body>
+<form th:method="PATCH" th:action="@{/words/{id}(id=${word.getId()})}" th:object="${word}">
+
+    <label for="origin">Enter original: </label>
+    <input type="text" th:field="*{origin}" id="origin"/>
+    <div style="color: red" th:if="${#fields.hasErrors('origin')}" th:errors="*{origin}">Origin error</div>
+    <br/>
+
+    <label for="translation">Enter translation: </label>
+    <input type="text" th:field="*{translation}" id="translation"/>
+    <div style="color: red" th:if="${#fields.hasErrors('translation')}" th:errors="*{translation}">Translation error
+    </div>
+    <br/>
+
+    <input type="submit" value="Save changes"/>
+</form>
+</body>
+</html>
