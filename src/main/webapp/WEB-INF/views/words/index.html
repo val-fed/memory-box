@@ -7,7 +7,8 @@
 <body>
 
 <div th:each="word : ${words}">
-    <p th:text="${word.getOrigin() + ' - ' + word.getTranslation()}">words</p>
+    <a th:href="@{/words/{id}(id=${word.getId()})}"
+       th:text="${word.getOrigin() + ' - ' + word.getTranslation()}">words</a>
 </div>
 
 <br/>

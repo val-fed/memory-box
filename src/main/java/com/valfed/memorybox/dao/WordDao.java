@@ -33,4 +33,13 @@ public class WordDao {
     parameterSource.addValue("translation", word.getTranslation(), Types.VARCHAR);
     simpleJdbcInsert.withTableName("word").usingGeneratedKeyColumns("id").execute(parameterSource);
   }
+
+  public Word show(int id) {
+    return jdbcTemplate.query(
+            "SELECT * FROM word WHERE id=?",
+            new Object[]{id},
+            new int[]{Types.INTEGER},
+            new BeanPropertyRowMapper<>(Word.class))
+            .stream().findAny().orElse(null);
+  }
 }
