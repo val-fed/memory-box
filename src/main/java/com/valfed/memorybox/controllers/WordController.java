@@ -1,72 +1,63 @@
 package com.valfed.memorybox.controllers;
 
-import com.valfed.memorybox.dao.WordDao;
 import com.valfed.memorybox.models.Word;
+import com.valfed.memorybox.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
+import java.util.List;
 
 @Controller
-@RequestMapping("words")
 public class WordController {
 
-  private final WordDao wordDao;
+  private final WordService service;
 
   @Autowired
-  public WordController(WordDao wordDao) {
-    this.wordDao = wordDao;
+  public WordController(WordService service) {
+    this.service = service;
   }
 
-  @GetMapping
-  public String getAll(Model model) {
-    model.addAttribute("words", wordDao.getAll());
-    return "words/index";
+  @RequestMapping("/")
+  public String viewHomePage(Model model) {
+    List<Word> words = service.listAll();
+    model.addAttribute("words", words);
+
+    return "index";
   }
 
-  @GetMapping("/{id}")
-  public String show(@PathVariable("id") int id, Model model) {
-    model.addAttribute("word", wordDao.show(id));
-    return "words/show";
+  @RequestMapping("/new")
+  public String showNewWordPage(Model model) {
+    Word word = new Word();
+    model.addAttribute("word", word);
+
+    return "new_word";
   }
 
-  @GetMapping("/new")
-  public String newPerson(@ModelAttribute("word") Word word) {
-    return "words/new";
+  @RequestMapping(value = "/save", method = RequestMethod.POST)
+  public String saveWord(@ModelAttribute("word") Word word) {
+    service.save(word);
+
+    return "redirect:/";
   }
 
-  @PostMapping()
-  public String create(@ModelAttribute("word") @Valid Word word, BindingResult bindingResult) {
-    if (bindingResult.hasErrors()) {
-      return "words/new";
-    }
-    wordDao.save(word);
-    return "redirect:/words";
+  @RequestMapping("/edit/{id}")
+  public ModelAndView showEditWordPage(@PathVariable(name = "id") int id) {
+    ModelAndView mav = new ModelAndView("edit_word");
+    Word word = service.get(id);
+    mav.addObject("word", word);
+
+    return mav;
   }
 
-  @GetMapping("/{id}/edit")
-  public String edit(Model model, @PathVariable("id") int id) {
-    model.addAttribute("word", wordDao.show(id));
-    return "words/edit";
-  }
-
-  @PatchMapping("/{id}")
-  public String update(@ModelAttribute("word") @Valid Word word,
-                       BindingResult bindingResult,
-                       @PathVariable("id") int id) {
-    if (bindingResult.hasErrors()) {
-      return "words/edit";
-    }
-    wordDao.update(id, word);
-    return "redirect:/words";
-  }
-
-  @DeleteMapping("/{id}")
-  public String delete(@PathVariable("id") int id) {
-    wordDao.delete(id);
-    return "redirect:/words";
+  @RequestMapping("/delete/{id}")
+  public String deleteWord(@PathVariable(name = "id") int id) {
+    service.delete(id);
+    return "redirect:/";
   }
 }
