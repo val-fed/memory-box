@@ -14,6 +14,8 @@ public class Word {
   private String origin;
   private String translation;
 
+  private User author;
+
   public Word() {
   }
 
@@ -45,5 +47,13 @@ public class Word {
 
   public void setTranslation(String translation) {
     this.translation = translation;
+  }
+
+  public User getAuthor() {
+    return author;
+  }
+
+  public void setAuthor(User author) {
+    this.author = author;
   }
 }
