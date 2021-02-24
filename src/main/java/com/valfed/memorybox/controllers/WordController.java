@@ -1,8 +1,10 @@
 package com.valfed.memorybox.controllers;
 
+import com.valfed.memorybox.models.User;
 import com.valfed.memorybox.models.Word;
 import com.valfed.memorybox.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -45,7 +47,9 @@ public class WordController {
   }
 
   @RequestMapping(value = "/save", method = RequestMethod.POST)
-  public String saveWord(@ModelAttribute("word") Word word) {
+  public String saveWord(@AuthenticationPrincipal User user,
+                         @ModelAttribute("word") Word word) {
+    word.setAuthor(user);
     service.save(word);
 
     return "redirect:/words";

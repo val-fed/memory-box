@@ -1,9 +1,12 @@
 package com.valfed.memorybox.models;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Word {
@@ -14,15 +17,18 @@ public class Word {
   private String origin;
   private String translation;
 
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "user_id")
   private User author;
 
   public Word() {
   }
 
-  public Word(long id, String origin, String translation) {
+  public Word(long id, String origin, String translation, User user) {
     this.id = id;
     this.origin = origin;
     this.translation = translation;
+    this.author = user;
   }
 
   public long getId() {
