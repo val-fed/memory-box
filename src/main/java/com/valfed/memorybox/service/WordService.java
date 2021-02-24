@@ -1,5 +1,6 @@
 package com.valfed.memorybox.service;
 
+import com.valfed.memorybox.models.User;
 import com.valfed.memorybox.models.Word;
 import com.valfed.memorybox.repo.WordRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,8 @@ public class WordService {
     this.repo = wordRepo;
   }
 
-  public List<Word> listAll() {
-    return repo.findAll();
+  public List<Word> listAll(User user) {
+    return repo.findByAuthor(user);
   }
 
   public void save(Word word) {

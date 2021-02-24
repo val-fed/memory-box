@@ -31,8 +31,9 @@ public class WordController {
   }
 
   @RequestMapping("/words")
-  public String viewWordsPage(Model model) {
-    List<Word> words = service.listAll();
+  public String viewWordsPage(@AuthenticationPrincipal User user,
+                              Model model) {
+    List<Word> words = service.listAll(user);
     model.addAttribute("words", words);
 
     return "word_list";
