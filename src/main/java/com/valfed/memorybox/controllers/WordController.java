@@ -24,11 +24,16 @@ public class WordController {
   }
 
   @RequestMapping("/")
-  public String viewHomePage(Model model) {
+  public String viewHomePage() {
+    return "index";
+  }
+
+  @RequestMapping("/words")
+  public String viewWordsPage(Model model) {
     List<Word> words = service.listAll();
     model.addAttribute("words", words);
 
-    return "index";
+    return "word_list";
   }
 
   @RequestMapping("/new")
@@ -43,7 +48,7 @@ public class WordController {
   public String saveWord(@ModelAttribute("word") Word word) {
     service.save(word);
 
-    return "redirect:/";
+    return "redirect:/words";
   }
 
   @RequestMapping("/edit/{id}")
@@ -58,6 +63,6 @@ public class WordController {
   @RequestMapping("/delete/{id}")
   public String deleteWord(@PathVariable(name = "id") int id) {
     service.delete(id);
-    return "redirect:/";
+    return "redirect:/words";
   }
 }

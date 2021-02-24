@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Word Manager</title>
+</head>
+<body>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+<div align="center">
+    <h1>Word List</h1>
+    <a href="/new">Create New Word</a>
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>Word ID</th>
+            <th>Origin</th>
+            <th>Translation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="word : ${words}">
+            <td th:text="${word.id}">Product ID</td>
+            <td th:text="${word.origin}">Name</td>
+            <td th:text="${word.translation}">Brand</td>
+            <td>
+                <a th:href="@{'/edit/' + ${word.id}}">Edit</a>
+                &nbsp;&nbsp;&nbsp;
+                <a th:href="@{'/delete/' + ${word.id}}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
